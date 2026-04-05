@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>SaaDvisor — цифровой партнёр для бизнеса</title>
+    <style>
+        /* ==================== RESET & GLOBAL ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: #ffffff;
+            color: #111827;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #2563eb;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.75rem 1.75rem;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #2563eb;
+            color: #2563eb;
+            font-weight: 600;
+            padding: 0.7rem 1.7rem;
+            border-radius: 40px;
+            cursor: pointer;
+        }
+        .btn-outline:hover {
+            background: #eff6ff;
+        }
+
+        section {
+            padding: 80px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #1e293b, #2563eb);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        /* Меню */
+        .navbar {
+            background: rgba(255,255,255,0.96);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(2px);
+        }
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 1rem 32px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .icon-project {
+            background: #2563eb;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: white;
+        }
+        .project-name-menu {
+            font-weight: 800;
+            font-size: 1.35rem;
+            background: linear-gradient(135deg, #0f172a, #2563eb);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #1f2937;
+            font-weight: 500;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+        .auth-btn {
+            background: #2563eb;
+            color: white !important;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+        }
+        .auth-btn:hover {
+            background: #1d4ed8;
+            color: white !important;
+        }
+        .user-btn {
+            background: #10b981;
+            color: white !important;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+        }
+        .user-btn:hover {
+            background: #059669;
+            color: white !important;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 0 70px;
+            background: linear-gradient(145deg, #f9fafc 0%, #ffffff 100%);
+        }
+        .hero h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0f172a, #2563eb);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .hero-tagline {
+            font-size: 1.3rem;
+            color: #4b5563;
+            margin: 1rem 0;
+        }
+
+        .info-grid {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .info-card {
+            flex: 1;
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 32px;
+        }
+        .info-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .stats-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            background: #ffffff;
+            border-radius: 48px;
+            padding: 2rem;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+        }
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #2563eb;
+        }
+
+        .team-grid {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .team-card {
+            background: white;
+            border-radius: 28px;
+            padding: 1.8rem;
+            text-align: center;
+            width: 220px;
+            box-shadow: 0 12px 28px -8px rgba(0,0,0,0.08);
+        }
+        .team-avatar {
+            width: 90px;
+            height: 90px;
+            background: #dbeafe;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        .badge-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .badge {
+            background: #f1f5f9;
+            padding: 8px 18px;
+            border-radius: 60px;
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 32px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+        }
+        .modal-content input {
+            width: 100%;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+        }
+        .modal-content input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 48px 0 32px;
+            margin-top: 0;
+        }
+        .footer-inner {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        .footer-copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #1e293b;
+        }
+
+        .cookie-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            max-width: 450px;
+            background: #1e293b;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+        }
+        .cookie-btn {
+            background: #2563eb;
+            border: none;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-up {
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .section-title { font-size: 1.8rem; }
+            .container { padding: 0 20px; }
+            .nav-container { flex-direction: column; gap: 12px; }
+            .nav-links { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="logo-area">
+            <div class="icon-project">С</div>
+            <span class="project-name-menu">SaaDvisor</span>
+        </a>
+        <div class="nav-links">
+            <a href="#" id="authNavBtn" class="auth-btn">Войти</a>
+            <a href="faq.html">FAQ</a>
+            <a href="tariffs.html">Подписки</a>
+            <a href="tips.html">Советы</a>
+        </div>
+    </div>
+</div>
+
+<header class="hero">
+    <div class="container">
+        <h1>SaaDvisor</h1>
+        <div class="hero-tagline">Поможем вам быстро перейти на цифру</div>
+        <button id="heroTryBtn" class="btn-primary">Попробовать бесплатно</button>
+    </div>
+</header>
+
+<main>
+    <section>
+        <div class="container">
+            <h2 class="section-title">О проекте</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>📈 Чем занимаемся?</h3>
+                    <p>Наша компания помогает малому и среднему бизнесу стать заметным в интернете, переводя сложные технические правила поисковых систем на понятный человеческий язык. Мы проводим глубокий аудит вашего сайта и исправляем ошибки в его структуре, чтобы он начал приносить реальных клиентов, а не просто существовать в сети. Вместо сложных терминов и запутанных отчетов вы получаете готовую стратегию и четкие инструкции, как именно улучшить свои позиции и обойти конкурентов.</p>
+                    <p style="margin-top: 12px;">✅ 300+ успешных улучшений</p>
+                    <p>✅ 15+ экспертов в штате</p>
+                    <p>✅ Проверено на практике</p>
+                </div>
+                <div class="info-card">
+                    <h3>🚀 Как поможет?</h3>
+                    <p>Мы поможем вашему бизнесу перестать тратить бюджет впустую и начнем превращать обычных посетителей сайта в реальных покупателей. Наша команда берет на себя всю сложную техническую настройку и общение с поисковыми системами, чтобы вы могли сосредоточиться на управлении компанией и важной информации, а не на изучении тяжелой сухой теории. Вместо запутанных графиков вы получите простую последовательность действий, которая сделает ваш бренд заметным в сети и обеспечит стабильный приток новых клиентов.</p>
+                    <p>⭐ Доступ к закрытому сообществу маркетологов</p>
+                </div>
+                <div class="info-card">
+                    <h3>🏆 Наши принципы</h3>
+                    <p>Мы строим работу на полной прозрачности, предоставляя вам понятные отчеты и открытый доступ ко всем процессам без скрытых платежей. Благодаря легкой доступности информации вы всегда будете в курсе того, как именно продвигается ваш проект и на что расходуется бюджет. Наша команда обеспечивает поддержку 24/7, оставаясь на связи в любое время, чтобы оперативно решать ваши задачи и отвечать на возникающие вопросы. Качество нашего подхода подтверждают многочисленные положительные отзывы от компаний, которые уже масштабировали свой бизнес и доверили нам свое развитие в цифровой среде.</p>
+                </div>
+            </div>
+            <div class="stats-row">
+                <div class="stat-item"><div class="stat-number">4 года</div><div>В продажах</div></div>
+                <div class="stat-item"><div class="stat-number">№1</div><div>На рынке</div></div>
+                <div class="stat-item"><div class="stat-number">24/7</div><div>Поддержка</div></div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar">Н</div>
+                    <h3>Никита Ч.</h3>
+                    <p>Developer</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">В</div>
+                    <h3>Виталина Б.</h3>
+                    <p>Product Manager</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">Д</div>
+                    <h3>Ульяна В.</h3>
+                    <p>Designer</p>
+                </div>
+            </div>
+            <div class="badge-list">
+                <span class="badge">Прогрессирующая IT-компания</span>
+                <span class="badge">Партнёр VK & 2GIS</span>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-inner">
+            <div>
+                <h4 style="color: white;">SaaDvisor</h4>
+                <p>📧 a70655776@gmail.com</p>
+                <p>📞 +7-913-074-03-56</p>
+            </div>
+            <div>
+                <h4 style="color: white;">Разделы</h4>
+                <ul style="list-style: none;">
+                    <li>FAQ</li>
+                    <li>Подписки</li>
+                    <li>Советы</li>
+                </ul>
+            </div>
+            <div>
+                <h4 style="color: white;">Соцсети</h4>
+                <p>VK | Telegram | Дзен</p>
+                <p>© 2026 SaaDvisor</p>
+            </div>
+        </div>
+        <div class="footer-copyright">Сделано командой разработчиков для предпринимателей</div>
+    </div>
+</footer>
+
+<div id="cookieBanner" class="cookie-banner">
+    <span>🍪 Мы используем cookies для улучшения сервиса.</span>
+    <button id="acceptCookieBtn" class="cookie-btn">OK</button>
+</div>
+
+<!-- Модальное окно входа/регистрации -->
+<div id="authModal" class="modal">
+    <div class="modal-content">
+        <h3 id="modalTitle">Вход</h3>
+        <input type="text" id="loginUsername" placeholder="Имя пользователя">
+        <input type="email" id="loginEmail" placeholder="Email (при регистрации)">
+        <input type="password" id="loginPassword" placeholder="Пароль">
+        <button id="submitAuthBtn" class="btn-primary" style="width:100%; margin-top:1rem;">Войти</button>
+        <p style="text-align:center; margin-top:1rem;">
+            <a href="#" id="switchAuthMode">Нет аккаунта? Зарегистрироваться</a>
+        </p>
+        <button id="closeModalBtn" class="btn-outline" style="width:100%; margin-top:0.5rem;">Закрыть</button>
+    </div>
+</div>
+
+<script>
+    const API_URL = 'http://localhost:8000';
+    let isLoginMode = true;
+    let currentUser = null;
+
+    // ========== Работа с токеном ==========
+    function setToken(token) {
+        localStorage.setItem('access_token', token);
+    }
+
+    function getToken() {
+        return localStorage.getItem('access_token');
+    }
+
+    function removeToken() {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('username');
+    }
+
+    function isAuthenticated() {
+        return !!getToken();
+    }
+
+    function updateAuthButton() {
+        const authBtn = document.getElementById('authNavBtn');
+        if (!authBtn) return;
+
+        if (isAuthenticated() && currentUser) {
+            authBtn.textContent = currentUser.username || localStorage.getItem('username') || 'Аккаунт';
+            authBtn.href = 'account.html';
+            authBtn.classList.remove('auth-btn');
+            authBtn.classList.add('user-btn');
+        } else {
+            authBtn.textContent = 'Войти';
+            authBtn.href = '#';
+            authBtn.classList.remove('user-btn');
+            authBtn.classList.add('auth-btn');
+        }
+    }
+
+    // Обработчик клика по кнопке входа (если не авторизован)
+    function setupAuthButtonClick() {
+        const authBtn = document.getElementById('authNavBtn');
+        if (!authBtn) return;
+
+        authBtn.onclick = (e) => {
+            if (!isAuthenticated()) {
+                e.preventDefault();
+                // Открываем модальное окно в режиме входа
+                isLoginMode = true;
+                modalTitle.textContent = 'Вход';
+                submitBtn.textContent = 'Войти';
+                switchLink.textContent = 'Нет аккаунта? Зарегистрироваться';
+                loginEmail.style.display = 'none';
+                document.getElementById('loginUsername').value = '';
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
+                modal.classList.add('active');
+            }
+            // Если авторизован - ссылка ведёт на account.html
+        };
+    }
+
+    async function loadCurrentUser() {
+        const token = getToken();
+        if (!token) return null;
+        try {
+            const response = await fetch(`${API_URL}/auth/me`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.ok) {
+                currentUser = await response.json();
+                localStorage.setItem('username', currentUser.username);
+                updateAuthButton();
+                return currentUser;
+            } else {
+                removeToken();
+                currentUser = null;
+                updateAuthButton();
+            }
+        } catch(e) {
+            console.error('Ошибка загрузки пользователя:', e);
+            // Не удаляем токен при ошибке сети, может быть сервер не запущен
+        }
+        return null;
+    }
+
+    // ========== Аутентификация ==========
+    async function register(username, email, password) {
+        const response = await fetch(`${API_URL}/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, password })
+        });
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.detail || 'Ошибка регистрации');
+        }
+        return await response.json();
+    }
+
+    async function login(username, password) {
+        const response = await fetch(`${API_URL}/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.detail || 'Неверное имя пользователя или пароль');
+        }
+        return await response.json();
+    }
+
+    // ========== Модальное окно ==========
+    const modal = document.getElementById('authModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const loginEmail = document.getElementById('loginEmail');
+    const submitBtn = document.getElementById('submitAuthBtn');
+    const switchLink = document.getElementById('switchAuthMode');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    function switchMode() {
+        isLoginMode = !isLoginMode;
+        if (isLoginMode) {
+            modalTitle.textContent = 'Вход';
+            submitBtn.textContent = 'Войти';
+            switchLink.textContent = 'Нет аккаунта? Зарегистрироваться';
+            loginEmail.style.display = 'none';
+        } else {
+            modalTitle.textContent = 'Регистрация';
+            submitBtn.textContent = 'Зарегистрироваться';
+            switchLink.textContent = 'Уже есть аккаунт? Войти';
+            loginEmail.style.display = 'block';
+        }
+        // Очищаем поля при переключении
+        document.getElementById('loginUsername').value = '';
+        document.getElementById('loginEmail').value = '';
+        document.getElementById('loginPassword').value = '';
+    }
+
+    if (switchLink) {
+        switchLink.onclick = (e) => {
+            e.preventDefault();
+            switchMode();
+        };
+    }
+
+    if (closeModalBtn) {
+        closeModalBtn.onclick = () => {
+            modal.classList.remove('active');
+        };
+    }
+
+    // Закрытие модального окна при клике вне его
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+        }
+    });
+
+    if (submitBtn) {
+        submitBtn.onclick = async () => {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!username || !password) {
+                alert('Заполните все поля');
+                return;
+            }
+
+            // Блокируем кнопку на время запроса
+            submitBtn.disabled = true;
+            submitBtn.textContent = isLoginMode ? 'Вход...' : 'Регистрация...';
+
+            try {
+                if (isLoginMode) {
+                    const data = await login(username, password);
+                    setToken(data.access_token);
+                    localStorage.setItem('user_id', data.user_id);
+                    localStorage.setItem('username', username);
+                    currentUser = { id: data.user_id, username: username };
+                    updateAuthButton();
+                    modal.classList.remove('active');
+                    alert('Вход выполнен успешно!');
+                    window.location.href = 'account.html';
+                } else {
+                    const email = document.getElementById('loginEmail').value.trim();
+                    if (!email) {
+                        alert('Введите email');
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Зарегистрироваться';
+                        return;
+                    }
+                    const data = await register(username, email, password);
+                    setToken(data.access_token);
+                    localStorage.setItem('user_id', data.user_id);
+                    localStorage.setItem('username', username);
+                    currentUser = { id: data.user_id, username: username };
+                    updateAuthButton();
+                    modal.classList.remove('active');
+                    alert('Регистрация выполнена успешно!');
+                    window.location.href = 'account.html';
+                }
+            } catch(e) {
+                alert(e.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = isLoginMode ? 'Войти' : 'Зарегистрироваться';
+            }
+        };
+    }
+
+    // ========== Кнопка "Попробовать бесплатно" ==========
+    const heroTryBtn = document.getElementById('heroTryBtn');
+    if (heroTryBtn) {
+        heroTryBtn.addEventListener('click', () => {
+            if (isAuthenticated()) {
+                window.location.href = 'account.html';
+            } else {
+                // Открываем модальное окно в режиме РЕГИСТРАЦИИ
+                isLoginMode = false;
+                modalTitle.textContent = 'Регистрация';
+                submitBtn.textContent = 'Зарегистрироваться';
+                switchLink.textContent = 'Уже есть аккаунт? Войти';
+                loginEmail.style.display = 'block';
+                document.getElementById('loginUsername').value = '';
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
+                modal.classList.add('active');
+            }
+        });
+    }
+
+    // ========== Cookie баннер ==========
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    function getCookie(name) {
+        let nameEQ = name + "=";
+        let ca = document.cookie.split(';');
+        for(let i=0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    const cookieBanner = document.getElementById('cookieBanner');
+    const acceptBtn = document.getElementById('acceptCookieBtn');
+    if (getCookie('cookies_consent') === 'true') {
+        if (cookieBanner) cookieBanner.classList.add('hidden');
+    }
+    if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+            setCookie('cookies_consent', 'true', 365);
+            if (cookieBanner) cookieBanner.classList.add('hidden');
+        });
+    }
+
+    // ========== Анимация при скролле ==========
+    const fadeElements = document.querySelectorAll('.info-card, .team-card, .stats-row');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-up');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    fadeElements.forEach(el => observer.observe(el));
+    document.querySelector('.hero')?.classList.add('fade-up');
+
+    // ========== Инициализация ==========
+    // Сначала настраиваем обработчик кнопки входа
+    setupAuthButtonClick();
+    // Затем загружаем пользователя (если токен есть)
+    loadCurrentUser();
+</script>
+</body>
+</html>

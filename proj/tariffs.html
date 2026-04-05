@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подписки — SaaDvisor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: #f5f7fb;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+        .navbar {
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            padding: 1rem 2rem;
+        }
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .icon-project {
+            background: #2563eb;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: white;
+        }
+        .project-name-menu {
+            font-weight: 800;
+            font-size: 1.35rem;
+            background: linear-gradient(135deg, #0f172a, #2563eb);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #1f2937;
+            font-weight: 500;
+        }
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 2rem 0 1rem;
+        }
+        .pricing-switch {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 48px;
+        }
+        .period-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .period-btn.active {
+            background: #2563eb;
+            color: white;
+        }
+        .tariffs-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .tariff-card {
+            background: white;
+            border-radius: 32px;
+            padding: 2rem;
+            width: 320px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.2s;
+        }
+        .tariff-card:hover {
+            transform: translateY(-8px);
+        }
+        .tariff-popular {
+            border-top: 4px solid #f59e0b;
+        }
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            right: 24px;
+            background: #f59e0b;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .tariff-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .tariff-price {
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin: 1rem 0 0.25rem;
+            color: #0f172a;
+        }
+        .price-period {
+            font-size: 0.9rem;
+            color: #5b6e8c;
+            margin-bottom: 1.5rem;
+        }
+        .tariff-features {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+        .tariff-features li {
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+        .comparison-table {
+            background: white;
+            border-radius: 32px;
+            padding: 2rem;
+            margin: 3rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .comparison-table h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .comparison-table th {
+            background: #f8fafc;
+            font-weight: 600;
+        }
+        .comparison-table .check {
+            color: #10b981;
+            font-size: 1.2rem;
+        }
+        .comparison-table .cross {
+            color: #ef4444;
+            font-size: 1.2rem;
+        }
+        .faq-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 32px;
+            padding: 2.5rem;
+            text-align: center;
+            margin: 2rem 0;
+            color: white;
+        }
+        .faq-section .btn-outline {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 48px 0 32px;
+            margin-top: 3rem;
+        }
+        .footer-inner {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        .footer-copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #1e293b;
+        }
+        .cookie-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #1e293b;
+            color: white;
+            padding: 1rem;
+            border-radius: 40px;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+        .hidden { display: none; }
+        @media (max-width: 768px) {
+            .tariffs-grid { flex-direction: column; align-items: center; }
+            .comparison-table { overflow-x: auto; }
+            .comparison-table table { min-width: 600px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="logo-area">
+            <div class="icon-project">С</div>
+            <span class="project-name-menu">SaaDvisor</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Главная</a>
+            <a href="faq.html">FAQ</a>
+            <a href="tariffs.html">Подписки</a>
+            <a href="tips.html">Советы</a>
+        </div>
+    </div>
+</div>
+
+<main style="flex: 1;">
+    <div class="container">
+        <h1 class="section-title">Выберите ваш тариф</h1>
+        <p style="margin-bottom: 2rem; text-align: center;">Подписка, которая поможет масштабировать бизнес в цифровой среде</p>
+
+        <div class="pricing-switch">
+            <button class="period-btn active" data-period="month">Ежемесячно</button>
+            <button class="period-btn" data-period="year">Годовая (выгода -20%)</button>
+        </div>
+
+        <div class="tariffs-grid" id="tariffsContainer"></div>
+
+        <div class="comparison-table">
+            <h3>📊 Сравнение всех тарифов</h3>
+            <table>
+                <thead>
+                    <tr><th>Функция</th><th>Старт</th><th>Бизнес</th><th>VIP</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Количество проектов</td><td>до 5</td><td>до 20</td><td>Безлимит</td></tr>
+                    <tr><td>База знаний</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+                    <tr><td>Чат поддержки 24/7</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+                    <tr><td>Вебинары в месяц</td><td>1</td><td>3</td><td>Безлимит</td></tr>
+                    <tr><td>Персональный куратор</td><td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td></tr>
+                    <tr><td>Приоритетная поддержка</td><td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td></tr>
+                    <tr><td>Отдельный эксперт 24/7</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+                    <tr><td>Стратегическая сессия</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+                    <tr><td>Интеграция с CRM</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="faq-section">
+            <h3>❓ Остались вопросы?</h3>
+            <p>Мы поможем подобрать тариф под ваши задачи</p>
+            <button class="btn-outline" onclick="alert('Свяжитесь с нами: hello@saadvisor.ru')">Связаться с менеджером</button>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-inner">
+            <div><h4 style="color: white;">SaaDvisor</h4><p>📧 hello@saadvisor.ru</p><p>📞 +7 (495) 123-45-67</p></div>
+            <div><h4 style="color: white;">Разделы</h4><ul style="list-style: none;"><li>FAQ</li><li>Подписки</li><li>Советы</li></ul></div>
+            <div><h4 style="color: white;">Соцсети</h4><p>VK | Telegram | Дзен</p><p>© 2026 SaaDvisor</p></div>
+        </div>
+        <div class="footer-copyright">Сделано командой разработчиков для предпринимателей</div>
+    </div>
+</footer>
+</footer>
+
+<div id="cookieBanner" class="cookie-banner">
+    <span>🍪 Мы используем cookies для улучшения сервиса.</span>
+    <button id="acceptCookieBtn" class="cookie-btn">OK</button>
+</div>
+
+<script>
+    const tariffsData = {
+        month: {
+            basic: { name: "Старт", price: 2900, popular: false, features: ["📊 Аналитика до 35 запросов в месяц", "📚 База знаний", "💬 Чат поддержки 24/7", "🎓 До 75 запросов боту-советчику в месяц"] },
+            pro: { name: "Бизнес", price: 5900, popular: true, features: ["📊 Аналитика до 90 запросов в месяц", "📚 База знаний", "💬 Чат поддержки 24/7", "🎓 До 145 запросов боту-советчику в месяц", "⚡ Приоритетная поддержка"] },
+            vip: { name: "VIP", price: 12900, popular: false, features: ["📊 Безлимитная аналитика", "📚 База знаний", "💬 Чат поддержки 24/7", "🎓 Безлимит запросов боту-советчику", "⚡ Приоритетная поддержка", "🔗 Интеграция с CRM", "👨‍💼 Персональный куратор"] }
+        },
+        year: {
+            basic: { name: "Старт", price: 2900, popular: false, features: ["📊 Аналитика до 35 запросов в месяц", "📚 База знаний", "💬 Чат поддержки 24/7", "🎓 До 75 запросов боту-советчику в месяц"] },
+            pro: { name: "Бизнес", price: 5900, popular: true, features: ["📊 Аналитика до 90 запросов в месяц", "📚 База знаний", "💬 Чат поддержки 24/7", "🎓 До 145 запросов боту-советчику в месяц", "⚡ Приоритетная поддержка"] },
+            vip: { name: "VIP", price: 12900, popular: false, features: ["📊 Безлимитная аналитика", "📚 База знаний", "💬 Чат поддержки 24/7", "🎓 Безлимит запросов боту-советчику", "⚡ Приоритетная поддержка", "🔗 Интеграция с CRM", "👨‍💼 Персональный куратор"] }
+        }
+    };
+
+    function renderTariffs(period) {
+        const container = document.getElementById('tariffsContainer');
+        const data = tariffsData[period];
+        container.innerHTML = '';
+
+        Object.values(data).forEach(t => {
+            const card = document.createElement('div');
+            card.className = `tariff-card ${t.popular ? 'tariff-popular' : ''}`;
+            if (t.popular) card.innerHTML += `<div class="popular-badge">🔥 Самый популярный</div>`;
+            card.innerHTML += `
+                <div class="tariff-name">${t.name}</div>
+                <div class="tariff-price">${t.price.toLocaleString()} ₽</div>
+                <div class="price-period">${period === 'year' ? 'в месяц при оплате года' : 'в месяц'}</div>
+                <ul class="tariff-features">${t.features.map(f => `<li>${f}</li>`).join('')}</ul>
+                <button class="btn-primary" data-tariff="${t.name}">Выбрать тариф</button>
+            `;
+            container.appendChild(card);
+        });
+
+        document.querySelectorAll('.btn-primary').forEach(btn => {
+            btn.addEventListener('click', () => alert(`✨ Спасибо за выбор тарифа "${btn.dataset.tariff}"! Менеджер свяжется с вами.`));
+        });
+    }
+
+    let currentPeriod = 'month';
+    renderTariffs('month');
+
+    document.querySelectorAll('.period-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentPeriod = btn.dataset.period;
+            renderTariffs(currentPeriod);
+        });
+    });
+
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    function getCookie(name) {
+        let nameEQ = name + "=";
+        let ca = document.cookie.split(';');
+        for(let i=0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    const cookieBanner = document.getElementById('cookieBanner');
+    const acceptBtn = document.getElementById('acceptCookieBtn');
+    if (getCookie('cookies_consent') === 'true') {
+        cookieBanner?.classList.add('hidden');
+    }
+    if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+            setCookie('cookies_consent', 'true', 365);
+            cookieBanner.classList.add('hidden');
+        });
+    }
+</script>
+</body>
+</html>

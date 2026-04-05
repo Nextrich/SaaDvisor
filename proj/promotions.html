@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Акции — ПредПриятель</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .promo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .promo-card {
+            background: white;
+            border-radius: 28px;
+            padding: 1.5rem;
+            box-shadow: 0 12px 28px -8px rgba(0,0,0,0.08);
+            border: 1px solid #eef2ff;
+            transition: 0.3s;
+        }
+        .promo-card:hover { transform: translateY(-5px); }
+        .promo-badge {
+            background: #f59e0b;
+            color: white;
+            padding: 4px 12px;
+            display: inline-block;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .promo-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .promo-discount { font-size: 2rem; font-weight: 800; color: #2563eb; margin: 1rem 0; }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="logo-area">
+            <div class="icon-project">П</div>
+            <span class="project-name-menu">ПредПриятель</span>
+        </a>
+        <div class="nav-links">
+            <a href="account.html" id="nav-account">Аккаунт</a>
+            <a href="promotions.html" id="nav-promo">Акции</a>
+            <a href="faq.html" id="nav-faq">FAQ</a>
+            <a href="tariffs.html" id="nav-subs">Подписки</a>
+            <a href="tips.html" id="nav-tips">Советы</a>
+            <a href="index.html" class="landing-return">⟳ На главную</a>
+        </div>
+    </div>
+</div>
+
+<main>
+    <div class="container">
+        <h1 class="section-title fade-on-scroll">🔥 Акции и спецпредложения</h1>
+        <div class="promo-grid">
+            <div class="promo-card fade-on-scroll">
+                <div class="promo-badge">🔥 Ограниченное предложение</div>
+                <h3 class="promo-title">Годовая подписка "Бизнес"</h3>
+                <div class="promo-discount">-30%</div>
+                <button class="btn-primary" onclick="alert('Специальное предложение активировано!')">Активировать</button>
+            </div>
+            <div class="promo-card fade-on-scroll">
+                <div class="promo-badge">🎁 Подарок</div>
+                <h3 class="promo-title">Бесплатный аудит бизнеса</h3>
+                <div class="promo-discount">0 ₽</div>
+                <button class="btn-primary" onclick="alert('Подарок активирован!')">Получить аудит</button>
+            </div>
+            <div class="promo-card fade-on-scroll">
+                <div class="promo-badge">🤝 Партнёрская</div>
+                <h3 class="promo-title">Приведи друга</h3>
+                <div class="promo-discount">2 месяца бесплатно</div>
+                <button class="btn-primary" onclick="alert('Реферальная ссылка сгенерирована!')">Получить ссылку</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-inner">
+            <div><h4 style="color: white;">ПредПриятель</h4><p>📧 hello@predpriyatel.ru</p></div>
+            <div><h4 style="color: white;">Разделы</h4><ul style="list-style: none;"><li>Акции</li><li>FAQ</li><li>Подписки</li><li>Советы</li></ul></div>
+            <div><h4 style="color: white;">Соцсети</h4><p>VK | Telegram | Дзен</p><p>© 2026 SaaDvisor</p></div>
+        </div>
+        <div class="footer-copyright">Сделано командой разработчиков для предпринимателей</div>
+    </div>
+</footer>
+
+<div id="cookieBanner" class="cookie-banner">
+    <span>🍪 Мы используем cookies для улучшения сервиса.</span>
+    <button id="acceptCookieBtn" class="cookie-btn">OK</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

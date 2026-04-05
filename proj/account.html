@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет — SaaDvisor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: #f5f7fb;
+            color: #111827;
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+        .navbar {
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 32px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .icon-project {
+            background: #2563eb;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: white;
+        }
+        .project-name-menu {
+            font-weight: 800;
+            font-size: 1.35rem;
+            background: linear-gradient(135deg, #0f172a, #2563eb);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #1f2937;
+            font-weight: 500;
+        }
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+        .logout-btn {
+            background: #ef4444;
+            color: white !important;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+        }
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #2563eb;
+            color: #2563eb;
+            padding: 0.7rem 1.5rem;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .account-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 32px;
+            padding: 2rem;
+            color: white;
+            margin: 2rem 0;
+        }
+        .business-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .business-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .business-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+        .add-business-form {
+            background: white;
+            border-radius: 24px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        .add-business-form input {
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            margin-right: 0.5rem;
+        }
+        footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 48px 0 32px;
+            margin-top: 3rem;
+        }
+        .footer-inner {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        .footer-copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #1e293b;
+        }
+        .cookie-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #1e293b;
+            color: white;
+            padding: 1rem;
+            border-radius: 40px;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="logo-area">
+            <div class="icon-project">С</div>
+            <span class="project-name-menu">SaaDvisor</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Главная</a>
+            <a href="faq.html">FAQ</a>
+            <a href="tariffs.html">Подписки</a>
+            <a href="tips.html">Советы</a>
+            <a href="#" id="logoutBtn" class="logout-btn">Выйти</a>
+        </div>
+    </div>
+</div>
+
+<main>
+    <div class="container">
+        <div class="account-header">
+            <h1 id="userName">Загрузка...</h1>
+            <p id="userEmail"></p>
+        </div>
+
+        <h2>Мои компании</h2>
+        <div id="businessesList"></div>
+
+        <div class="add-business-form">
+            <h3>➕ Добавить компанию</h3>
+            <input type="text" id="businessName" placeholder="Название компании">
+            <input type="text" id="businessCity" placeholder="Город">
+            <input type="text" id="businessPhone" placeholder="Телефон">
+            <input type="text" id="businessWebsite" placeholder="Сайт">
+            <button id="addBusinessBtn" class="btn-primary">Добавить</button>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-inner">
+            <div><h4 style="color: white;">SaaDvisor</h4><p>📧 hello@saadvisor.ru</p></div>
+            <div><h4 style="color: white;">Разделы</h4><ul style="list-style: none;"><li>FAQ</li><li>Подписки</li><li>Советы</li></ul></div>
+            <div><h4 style="color: white;">Соцсети</h4><p>VK | Telegram | Дзен</p><p>© 2026 SaaDvisor</p></div>
+        </div>
+        <div class="footer-copyright">Сделано командой разработчиков для предпринимателей</div>
+    </div>
+</footer>
+
+<div id="cookieBanner" class="cookie-banner">
+    <span>🍪 Мы используем cookies</span>
+    <button id="acceptCookieBtn" class="cookie-btn">OK</button>
+</div>
+
+<script>
+    const API_URL = 'http://localhost:8000';
+
+    function getToken() {
+        return localStorage.getItem('access_token');
+    }
+
+    function isAuthenticated() {
+        const token = getToken();
+        if (!token) {
+            window.location.href = 'index.html';
+            return false;
+        }
+        return true;
+    }
+
+    async function apiRequest(endpoint, options = {}) {
+        const token = getToken();
+        const response = await fetch(`${API_URL}${endpoint}`, {
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+                ...options.headers
+            }
+        });
+        if (response.status === 401) {
+            localStorage.removeItem('access_token');
+            window.location.href = 'index.html';
+            throw new Error('Не авторизован');
+        }
+        return response;
+    }
+
+    async function loadUserAndBusinesses() {
+        try {
+            const userResp = await apiRequest('/auth/me');
+            if (userResp.ok) {
+                const user = await userResp.json();
+                document.getElementById('userName').textContent = user.username;
+                document.getElementById('userEmail').textContent = user.email;
+            }
+
+            const businessesResp = await apiRequest('/businesses');
+            if (businessesResp.ok) {
+                const businesses = await businessesResp.json();
+                const container = document.getElementById('businessesList');
+                container.innerHTML = '';
+
+                for (const biz of businesses) {
+                    const card = document.createElement('div');
+                    card.className = 'business-card';
+                    card.innerHTML = `
+                        <div>
+                            <div class="business-name">${biz.name}</div>
+                            <div style="color: #6b7280; font-size:0.9rem;">${biz.city || 'Город не указан'} | ${biz.phone || 'Телефон не указан'}</div>
+                            ${biz.website ? `<div style="font-size:0.8rem;">🌐 ${biz.website}</div>` : ''}
+                        </div>
+                        <div class="business-actions">
+                            <button class="btn-outline" onclick="startAnalysis(${biz.id})">📊 Начать анализ</button>
+                            <button class="btn-primary" onclick="openChat(${biz.id}, '${biz.name}')">💬 Чат с ИИ</button>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                }
+            }
+        } catch(e) {
+            console.error(e);
+        }
+    }
+
+    window.startAnalysis = function(businessId) {
+        window.location.href = `analysis.html?id=${businessId}`;
+    };
+
+    window.openChat = function(businessId, businessName) {
+        window.location.href = `chat.html?business_id=${businessId}&name=${encodeURIComponent(businessName)}`;
+    };
+
+    document.getElementById('addBusinessBtn')?.addEventListener('click', async () => {
+        const name = document.getElementById('businessName').value;
+        const city = document.getElementById('businessCity').value;
+        const phone = document.getElementById('businessPhone').value;
+        const website = document.getElementById('businessWebsite').value;
+
+        if (!name) {
+            alert('Введите название компании');
+            return;
+        }
+
+        const response = await apiRequest('/businesses', {
+            method: 'POST',
+            body: JSON.stringify({ name, city, phone, website, business_type: 'other' })
+        });
+
+        if (response.ok) {
+            alert('Компания добавлена');
+            document.getElementById('businessName').value = '';
+            document.getElementById('businessCity').value = '';
+            document.getElementById('businessPhone').value = '';
+            document.getElementById('businessWebsite').value = '';
+            loadUserAndBusinesses();
+        } else {
+            alert('Ошибка добавления');
+        }
+    });
+
+    document.getElementById('logoutBtn')?.addEventListener('click', () => {
+        localStorage.removeItem('access_token');
+        window.location.href = 'index.html';
+    });
+
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+    function getCookie(name) {
+        let nameEQ = name + "=";
+        let ca = document.cookie.split(';');
+        for(let i=0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+    const cookieBanner = document.getElementById('cookieBanner');
+    const acceptBtn = document.getElementById('acceptCookieBtn');
+    if (getCookie('cookies_consent') === 'true') {
+        cookieBanner?.classList.add('hidden');
+    }
+    if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+            setCookie('cookies_consent', 'true', 365);
+            cookieBanner.classList.add('hidden');
+        });
+    }
+
+    if (isAuthenticated()) {
+        loadUserAndBusinesses();
+    }
+</script>
+</body>
+</html>

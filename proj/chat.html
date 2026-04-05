@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чат с ИИ — SaaDvisor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: #f5f7fb;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .navbar {
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            padding: 1rem 2rem;
+            flex-shrink: 0;
+        }
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .icon-project {
+            background: #2563eb;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: white;
+        }
+        .project-name-menu {
+            font-weight: 800;
+            font-size: 1.35rem;
+            background: linear-gradient(135deg, #0f172a, #2563eb);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .back-btn {
+            background: #e2e8f0;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #1f2937;
+            font-weight: 500;
+        }
+        .chat-container {
+            flex: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            overflow: hidden;
+        }
+        .business-context {
+            background: #e0e7ff;
+            padding: 0.75rem 1rem;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        .messages-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            background: white;
+            border-radius: 24px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .message {
+            margin-bottom: 1rem;
+            display: flex;
+        }
+        .message.user {
+            justify-content: flex-end;
+        }
+        .message.assistant {
+            justify-content: flex-start;
+        }
+        .message-content {
+            max-width: 70%;
+            padding: 0.75rem 1rem;
+            border-radius: 20px;
+            line-height: 1.4;
+        }
+        .message.user .message-content {
+            background: #2563eb;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        .message.assistant .message-content {
+            background: #f1f5f9;
+            color: #1f2937;
+            border-bottom-left-radius: 4px;
+        }
+        .input-area {
+            display: flex;
+            gap: 0.75rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 60px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            flex-shrink: 0;
+        }
+        .input-area input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 40px;
+            font-size: 1rem;
+            outline: none;
+        }
+        .input-area input:focus {
+            border-color: #2563eb;
+        }
+        .input-area button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .input-area button:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+        .typing-indicator {
+            color: #94a3b8;
+            font-style: italic;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #94a3b8;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-10px); opacity: 1; }
+        }
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .suggestion-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .suggestion-btn:hover {
+            background: #e2e8f0;
+        }
+        footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 24px 0;
+            text-align: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+        .cookie-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #1e293b;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 40px;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+            font-size: 0.8rem;
+        }
+        .hidden { display: none; }
+        @media (max-width: 768px) {
+            .message-content { max-width: 85%; }
+            .suggestions { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="nav-container">
+        <a href="account.html" class="logo-area">
+            <div class="icon-project">С</div>
+            <span class="project-name-menu">SaaDvisor</span>
+        </a>
+        <a href="account.html" class="back-btn">← Назад в аккаунт</a>
+    </div>
+</div>
+
+<div class="chat-container">
+    <div class="business-context" id="businessContext">
+        <div class="loading">Загрузка информации о компании...</div>
+    </div>
+    <div class="messages-area" id="messagesArea">
+        <div class="message assistant">
+            <div class="message-content">
+                👋 Здравствуйте! Я ИИ-ассистент SaaDvisor.<br><br>
+                Я проанализировал ваш бизнес и готов помочь с любыми вопросами о цифровом маркетинге, SEO, соцсетях и развитии.<br><br>
+                Что вас интересует?
+            </div>
+        </div>
+    </div>
+    <div class="input-area">
+        <input type="text" id="messageInput" placeholder="Задайте вопрос о вашем бизнесе..." onkeypress="if(event.key==='Enter') sendMessage()">
+        <button id="sendBtn" onclick="sendMessage()">Отправить</button>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <p>© 2026 SaaDvisor — ИИ-помощник для предпринимателей</p>
+    </div>
+</footer>
+
+<div id="cookieBanner" class="cookie-banner">
+    <span>🍪 Мы используем cookies</span>
+    <button id="acceptCookieBtn" class="cookie-btn">OK</button>
+</div>
+
+<script>
+    const API_URL = 'http://localhost:8000';
+    const urlParams = new URLSearchParams(window.location.search);
+    const businessId = urlParams.get('business_id');
+    const businessName = decodeURIComponent(urlParams.get('name') || '');
+
+    let messageHistory = [];
+    let isWaiting = false;
+
+    function getToken() {
+        return localStorage.getItem('access_token');
+    }
+
+    function isAuthenticated() {
+        const token = getToken();
+        if (!token) {
+            window.location.href = 'index.html';
+            return false;
+        }
+        return true;
+    }
+
+    async function apiRequest(endpoint, options = {}) {
+        const token = getToken();
+        const response = await fetch(`${API_URL}${endpoint}`, {
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+                ...options.headers
+            }
+        });
+        if (response.status === 401) {
+            localStorage.removeItem('access_token');
+            window.location.href = 'index.html';
+            throw new Error('Не авторизован');
+        }
+        return response;
+    }
+
+    async function loadBusinessContext() {
+        if (!businessId) {
+            document.getElementById('businessContext').innerHTML = '⚠️ Компания не выбрана';
+            return;
+        }
+
+        try {
+            const response = await apiRequest(`/chat/business/${businessId}/context`);
+            if (response.ok) {
+                const data = await response.json();
+                let html = `
+                    <strong>📍 ${escapeHtml(data.business_name)}</strong> | ${escapeHtml(data.city || 'город не указан')}
+                `;
+                if (data.has_audit) {
+                    html += ` | 🎯 Оценка аудита: <strong>${data.audit_score}/100</strong>`;
+                    if (data.main_issues && data.main_issues.length) {
+                        html += `<details style="margin-top: 8px;">
+                            <summary style="cursor: pointer; color: #4b5563;">🔍 Основные проблемы</summary>
+                            <ul style="margin-top: 8px; margin-left: 20px; color: #6b7280;">
+                                ${data.main_issues.map(issue => `<li>${escapeHtml(issue)}</li>`).join('')}
+                            </ul>
+                        </details>`;
+                    }
+                } else {
+                    html += ` | ⚠️ Аудит не проведён. <a href="analysis.html?id=${businessId}" style="color: #2563eb;">Пройти анализ →</a>`;
+                }
+                document.getElementById('businessContext').innerHTML = html;
+            } else {
+                document.getElementById('businessContext').innerHTML = `📍 ${escapeHtml(businessName)} | Не удалось загрузить данные`;
+            }
+        } catch(e) {
+            console.error('Error loading context:', e);
+            document.getElementById('businessContext').innerHTML = `📍 ${escapeHtml(businessName)} | Данные недоступны`;
+        }
+    }
+
+    async function sendMessage() {
+        if (isWaiting) return;
+
+        const input = document.getElementById('messageInput');
+        const message = input.value.trim();
+        if (!message) return;
+
+        // Добавляем сообщение пользователя
+        addMessage('user', message);
+        input.value = '';
+
+        // Добавляем в историю
+        messageHistory.push({ role: 'user', content: message });
+
+        // Показываем индикатор печати
+        isWaiting = true;
+        const sendBtn = document.getElementById('sendBtn');
+        sendBtn.disabled = true;
+
+        const typingDiv = showTypingIndicator();
+
+        try {
+            const response = await apiRequest('/chat/send', {
+                method: 'POST',
+                body: JSON.stringify({
+                    business_id: parseInt(businessId),
+                    message: message,
+                    history: messageHistory.slice(-10) // Последние 10 сообщений
+                })
+            });
+
+            typingDiv.remove();
+
+            if (response.ok) {
+                const data = await response.json();
+                addMessage('assistant', data.response);
+                messageHistory.push({ role: 'assistant', content: data.response });
+
+                // Показываем контекст если есть
+                if (data.context_used && !data.context_used.has_audit) {
+                    addSuggestion('Пройти аудит бизнеса', 'Как пройти аудит?');
+                }
+            } else {
+                addMessage('assistant', 'Извините, произошла ошибка. Попробуйте позже.');
+            }
+        } catch(e) {
+            typingDiv.remove();
+            addMessage('assistant', '⚠️ Ошибка соединения с сервером. Убедитесь, что бэкенд запущен.');
+            console.error('Error:', e);
+        } finally {
+            isWaiting = false;
+            sendBtn.disabled = false;
+            input.focus();
+        }
+    }
+
+    function addMessage(role, content) {
+        const messagesArea = document.getElementById('messagesArea');
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${role}`;
+        msgDiv.innerHTML = `<div class="message-content">${escapeHtml(content)}</div>`;
+        messagesArea.appendChild(msgDiv);
+        messagesArea.scrollTop = messagesArea.scrollHeight;
+    }
+
+    function showTypingIndicator() {
+        const messagesArea = document.getElementById('messagesArea');
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'message assistant';
+        typingDiv.id = 'typingIndicator';
+        typingDiv.innerHTML = `
+            <div class="typing-indicator">
+                <span>Анализирую</span>
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+            </div>
+        `;
+        messagesArea.appendChild(typingDiv);
+        messagesArea.scrollTop = messagesArea.scrollHeight;
+        return typingDiv;
+    }
+
+    function addSuggestion(text, query) {
+        const messagesArea = document.getElementById('messagesArea');
+        const suggestionDiv = document.createElement('div');
+        suggestionDiv.className = 'message assistant';
+        suggestionDiv.innerHTML = `
+            <div class="message-content">
+                <div class="suggestions">
+                    <button class="suggestion-btn" onclick="sendSuggestedMessage('${query}')">💡 ${text}</button>
+                </div>
+            </div>
+        `;
+        messagesArea.appendChild(suggestionDiv);
+        messagesArea.scrollTop = messagesArea.scrollHeight;
+    }
+
+    function sendSuggestedMessage(query) {
+        document.getElementById('messageInput').value = query;
+        sendMessage();
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // Cookie handling
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    function getCookie(name) {
+        let nameEQ = name + "=";
+        let ca = document.cookie.split(';');
+        for(let i=0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    const cookieBanner = document.getElementById('cookieBanner');
+    const acceptBtn = document.getElementById('acceptCookieBtn');
+    if (getCookie('cookies_consent') === 'true') {
+        cookieBanner?.classList.add('hidden');
+    }
+    if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+            setCookie('cookies_consent', 'true', 365);
+            cookieBanner.classList.add('hidden');
+        });
+    }
+
+    // Инициализация
+    if (isAuthenticated() && businessId) {
+        loadBusinessContext();
+    } else if (!businessId) {
+        document.getElementById('businessContext').innerHTML = '⚠️ Ошибка: компания не выбрана';
+    }
+</script>
+</body>
+</html>

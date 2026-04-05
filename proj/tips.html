@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Советы — ПредПриятель</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .tip-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            border: 1px solid #eef2ff;
+            transition: 0.3s;
+        }
+        .tip-card:hover { transform: translateY(-4px); }
+        .tip-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .tip-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.75rem; }
+        .tip-category { color: #2563eb; font-size: 0.8rem; font-weight: 600; margin-bottom: 1rem; }
+        .newsletter {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: white;
+            padding: 2rem;
+            border-radius: 28px;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        .email-input {
+            padding: 0.75rem 1rem;
+            border-radius: 40px;
+            border: none;
+            width: 280px;
+            margin-right: 1rem;
+        }
+        @media (max-width: 768px) { .email-input { width: 100%; margin-bottom: 1rem; } }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="logo-area">
+            <div class="icon-project">П</div>
+            <span class="project-name-menu">ПредПриятель</span>
+        </a>
+        <div class="nav-links">
+            <a href="account.html" id="nav-account">Аккаунт</a>
+            <a href="promotions.html" id="nav-promo">Акции</a>
+            <a href="faq.html" id="nav-faq">FAQ</a>
+            <a href="tariffs.html" id="nav-subs">Подписки</a>
+            <a href="tips.html" id="nav-tips">Советы</a>
+            <a href="index.html" class="landing-return">⟳ На главную</a>
+        </div>
+    </div>
+</div>
+
+<main>
+    <div class="container">
+        <h1 class="section-title fade-on-scroll">💡 Советы для предпринимателей</h1>
+        <div class="tips-grid">
+            <div class="tip-card fade-on-scroll"><div class="tip-icon">📊</div><div class="tip-category">Аналитика</div><h3 class="tip-title">Как анализировать конкурентов</h3><p>Используйте SimilarWeb, Serpstat для сбора данных о стратегиях продвижения.</p></div>
+            <div class="tip-card fade-on-scroll"><div class="tip-icon">🤖</div><div class="tip-category">Автоматизация</div><h3 class="tip-title">Топ-5 инструментов для продаж</h3><p>CRM, чат-боты, email-рассылки, автоворонки — внедряйте постепенно.</p></div>
+            <div class="tip-card fade-on-scroll"><div class="tip-icon">📱</div><div class="tip-category">Маркетинг</div><h3 class="tip-title">Продвижение в 2026</h3><p>Короткие вертикальные видео, UGC-контент, интеграции с блогерами.</p></div>
+            <div class="tip-card fade-on-scroll"><div class="tip-icon">💰</div><div class="tip-category">Финансы</div><h3 class="tip-title">Оптимизация расходов на рекламу</h3><p>Настройте сквозную аналитику, тестируйте гипотезы на малых бюджетах.</p></div>
+        </div>
+        <div class="newsletter fade-on-scroll">
+            <h3>📧 Получайте свежие советы каждую неделю</h3>
+            <div style="margin-top: 1rem;">
+                <input type="email" class="email-input" placeholder="Ваш email" id="newsEmail">
+                <button class="btn-primary" onclick="alert('Подписка оформлена!')">Подписаться</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-inner">
+            <div><h4 style="color: white;">ПредПриятель</h4><p>📧 hello@predpriyatel.ru</p></div>
+            <div><h4 style="color: white;">Разделы</h4><ul style="list-style: none;"><li>Акции</li><li>FAQ</li><li>Подписки</li><li>Советы</li></ul></div>
+            <div><h4 style="color: white;">Соцсети</h4><p>VK | Telegram | Дзен</p><p>© 2026 SaaDvisor</p></div>
+        </div>
+        <div class="footer-copyright">Сделано командой разработчиков для предпринимателей</div>
+    </div>
+</footer>
+
+<div id="cookieBanner" class="cookie-banner">
+    <span>🍪 Мы используем cookies для улучшения сервиса.</span>
+    <button id="acceptCookieBtn" class="cookie-btn">OK</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
